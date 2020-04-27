@@ -22,7 +22,6 @@ namespace WPFWeather.ViewModels
                             Value = 21
                         }
                     }
-
                 };
             }
 
