@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using WPFWeather.Commands;
 using WPFWeather.Helpers;
 using WPFWeather.Models;
@@ -19,14 +20,17 @@ namespace WPFWeather.ViewModels
                     {
                         Metric = new Units
                         {
-                            Value = 21
+                            Value = "21"
                         }
                     }
                 };
             }
 
             SearchCommand = new SearchCommand(this);
+            Cities = new ObservableCollection<City>();
         }
+
+        public ObservableCollection<City> Cities { get; set; }
 
         public SearchCommand SearchCommand { get; set; }
 
@@ -60,6 +64,7 @@ namespace WPFWeather.ViewModels
             set { 
                 selectedCity = value;
                 OnPropertyChanged("SelectedCity");
+                GetCurrentConditionsAsync();
             }
         }
 
@@ -73,6 +78,20 @@ namespace WPFWeather.ViewModels
         public async void MakeQueryAsync()
         {
             var cities = await AccuweatherHelper.GetCitiesAsync(Query);
+
+            Cities.Clear();
+
+            foreach (var city in cities)
+            {
+                Cities.Add(city);
+            }
+        }
+
+        private async void GetCurrentConditionsAsync()
+        {
+            Query = string.Empty;
+            Cities.Clear();
+            CurrentConditions = await AccuweatherHelper.GetCurrentConditionsAsync(SelectedCity.Key);
         }
     }
 }

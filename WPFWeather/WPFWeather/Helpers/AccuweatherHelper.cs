@@ -36,7 +36,7 @@ namespace WPFWeather.Helpers
         {
             CurrentConditions currentConditions = new CurrentConditions();
 
-            string url = BASE_URL + string.Format(AUTOCOMPLETE_URL, city, API_KEY);
+            string url = BASE_URL + string.Format(CONDITIONS_URL, city, API_KEY);
 
             using (HttpClient client = new HttpClient())
             {
