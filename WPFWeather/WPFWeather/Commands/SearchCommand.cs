@@ -8,7 +8,11 @@ namespace WPFWeather.Commands
     {
         public WeatherViewModel WeatherViewModel { get; set; }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public SearchCommand(WeatherViewModel weatherViewModel)
         {
@@ -17,6 +21,11 @@ namespace WPFWeather.Commands
 
         public bool CanExecute(object parameter)
         {
+            string query = parameter as string;
+
+            if (string.IsNullOrWhiteSpace(query))
+                return false;
+
             return true;
         }
 

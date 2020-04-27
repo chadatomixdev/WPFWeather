@@ -18,9 +18,10 @@
 
         <StackPanel Margin="20">
             <TextBlock Text="Search for a city:"/>
-            <TextBox Text="{Binding Query, Mode=TwoWay}"></TextBox>
+            <TextBox Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Button Margin="0,10" 
                     Command="{Binding SearchCommand}"
+                    CommandParameter="{Binding Query}"
                     Content="Search"></Button>
 
             <ListView>
